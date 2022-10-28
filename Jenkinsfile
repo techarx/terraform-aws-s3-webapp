@@ -35,7 +35,7 @@ def publishModule() {
     def payload = modulePayload()
     def response = httpRequest(
         customHeaders: [
-            [ name: "Authorization", value: "Bearer" + HGweVlbMfDzUHQ.atlasv1.fnflQ9xMWRVL74iwDvqCgizBnMyF0UjgiPC9QkS7u3NhMZkRkqfam6lDcEXZbUqcZZg ],
+            [ name: "Authorization", value: "Bearer  HGweVlbMfDzUHQ.atlasv1.fnflQ9xMWRVL74iwDvqCgizBnMyF0UjgiPC9QkS7u3NhMZkRkqfam6lDcEXZbUqcZZg" ],
             [ name: "Content-Type", value: "application/vnd.api+json" ]
         ],
         httpMode: 'POST',
