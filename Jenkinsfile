@@ -6,9 +6,7 @@ node {
     checkout()
     publishModule()
 }
-environment{
-    TFE_TOKEN = credentials('BEARER_TOKEN')
-}
+
 def checkout() {
     stage('Clone') {
         git branch: 'master', url: 'https://github.com/techarx/terraform-aws-s3-webapp.git'
@@ -37,7 +35,7 @@ def publishModule() {
     def payload = modulePayload()
     def response = httpRequest(
         customHeaders: [
-            [ name: "Authorization", value: "Bearer " + $TFE_TOKEN ],
+            [ name: "Authorization", value: "Bearer " + env.BEARER_TOKEN ],
             [ name: "Content-Type", value: "application/vnd.api+json" ]
         ],
         httpMode: 'POST',
