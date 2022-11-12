@@ -13,7 +13,7 @@ def checkout() {
     }
 }
 
-def package = [tar file: 's3-webapp', compress:true, dir:'terraform-aws-s3-webapp/vnet']
+
 
 def modulePayload() {
     def payload = """
