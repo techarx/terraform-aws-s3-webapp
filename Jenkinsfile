@@ -78,8 +78,9 @@ def publishVersion() {
     )
     def data = new JsonSlurper().parseText(response.content)
     println ("link: " + data.data.links.upload)
-    return data.data.links.upload
     def proc = "curl -T webapp.tar.gz ${data.data.links.upload}"
+    return data.data.links.upload
+    
 }
 
 
