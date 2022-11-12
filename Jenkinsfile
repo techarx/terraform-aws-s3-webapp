@@ -10,6 +10,8 @@ node {
     
 }
 
+def file = "$workspace/webapp.tar.gz"
+
 def checkout() {
     stage('Clone') {
         git branch: 'master', url: 'https://github.com/techarx/terraform-aws-s3-webapp.git'
@@ -65,6 +67,8 @@ def versionPayload() {
 
 }
 
+
+
 def publishVersion() {
     def Payload = versionPayload()
     def response = httpRequest(
@@ -77,8 +81,10 @@ def publishVersion() {
         url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/s3-webapp/aws/versions"
     )
     def data = new JsonSlurper().parseText(response.content)
-    println ("link: " + data.data.links.upload)
-    println ["curl", "-T", "./webapp.tar.gz", ${data.data.links.upload}].execute()
+    def cmd = ["curl", "-T", "\"files=@${file}\", ${data.data.links.upload}]
+    try {
+     def proc = cmd.execute()
+    }
     
 }
 
