@@ -5,7 +5,7 @@ import groovy.json.JsonSlurper
 node {
     checkout()
     publishModule()
-    publishversion()
+    publishVersion()
 }
 
 def checkout() {
