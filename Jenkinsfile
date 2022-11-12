@@ -81,7 +81,7 @@ def publishVersion() {
         url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/s3-webapp/aws/versions"
     )
     def data = new JsonSlurper().parseText(response.content)
-    def cmd = ["curl", "-T", "\"files=@${file}\", ${data.data.links.upload}]
+    def cmd = ["curl", "-T", "\"files=@${file}\", "${data.data.links.upload}"]
     try {
      def proc = cmd.execute()
     }
