@@ -81,9 +81,7 @@ def publishVersion() {
     return data.data.links.upload
 }
 
-def mylink = publishVersion()
-
-def proc = "curl -T webapp.tar.gz ${mylink}"
+def proc = "curl -T webapp.tar.gz ${link}"
 
 
 
