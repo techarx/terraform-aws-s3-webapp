@@ -11,7 +11,7 @@ node {
 def checkout() {
     stage('Clone') {
         git branch: 'master', url: 'https://github.com/techarx/terraform-aws-s3-webapp.git'
-        tar file: 's3-webapp.tar.gz', compress: true, dir:'terraform-aws-s3-webapp/vnet'
+        tar file: 's3-webapp.tar.gz', compress: true, dir:'/vnet'
         
     }
 }
