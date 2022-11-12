@@ -82,7 +82,7 @@ def publishVersion() {
     )
     def data = new JsonSlurper().parseText(response.content)
     def cmd = ""
-        ["curl", "-T", "\"files=@${file}\", "${data.data.links.upload}"]
+        ["curl", "-T", "${file}", "${data.data.links.upload}"]
     try {
      def proc = cmd.execute()
     }
