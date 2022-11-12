@@ -13,20 +13,21 @@ def checkout() {
     }
 }
 
+def package = tar file: 's3-webapp', compress: true, dir: 'terraform-aws-s3-webapp/vnet'
+
 def modulePayload() {
     def payload = """
 {
   "data": {
+    "type": "registry-modules",
     "attributes": {
-      "vcs-repo": {
-        "identifier":"techarx/terraform-aws-s3-webapp",
-        "oauth-token-id":"ot-miPwwcgkGQhbrKmr",
-        "display_identifier":"techarx/terraform-aws-s3-webapp"
-      }
-    },
-    "type":"registry-modules"
+      "name": "s3-webapp",
+      "provider": "aws",
+      "registry-name": "private"
+    }
   }
 }
+
     """
     return payload
 }
@@ -40,6 +41,36 @@ def publishModule() {
         ],
         httpMode: 'POST',
         requestBody: "${payload}",
-        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/vcs"
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules"
+    )
+}
+
+def versionPayload() {
+    def Payload = """
+{
+  "data": {
+    "type": "registry-module-versions",
+    "attributes": {
+      "version": "1.2.3"
+    }
+  }
+}
+
+
+    """
+    return Payload
+
+}
+
+def publishVersion() {
+    def Payload = versionPayload()
+    def response = httpRequest(
+        customHeaders: [
+            [ name: "Authorization", value: "Bearer " + env.BEARER_TOKEN ],
+            [ name: "Content-Type", value: "application/vnd.api+json" ]
+        ],
+        httpMode: 'POST',
+        requestBody: "${Payload}",
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/vnet/aws/versions"
     )
 }
