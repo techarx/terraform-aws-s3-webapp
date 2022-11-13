@@ -4,11 +4,7 @@ import groovy.json.JsonSlurper
 
 node {
     checkout()
-    publishModule()
-    publishVersion()
     postModule()
-    
-    
 }
 
 def filePath = "workspace/publish-module/"
@@ -24,76 +20,11 @@ def checkout() {
     }
 }
 
-def modulePayload() {
-    def payload = """
-{
-  "data": {
-    "type": "registry-modules",
-    "attributes": {
-      "name": "s3-webapp",
-      "provider": "aws",
-      "registry-name": "private"
-    }
-  }
-}
-
-    """
-    return payload
-}
-
-def publishModule() {
-    def payload = modulePayload()
-    def response = httpRequest(
-        customHeaders: [
-            [ name: "Authorization", value: "Bearer " + env.BEARER_TOKEN ],
-            [ name: "Content-Type", value: "application/vnd.api+json" ]
-        ],
-        httpMode: 'POST',
-        requestBody: "${payload}",
-        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules"
-    )
-}
-
-def versionPayload() {
-    def Payload = """
-{
-  "data": {
-    "type": "registry-module-versions",
-    "attributes": {
-      "version": "1.2.3"
-    }
-  }
-}
-
-
-    """
-    return Payload
-
-}
-
-
-
-def publishVersion() {
-    def Payload = versionPayload()
-    def response = httpRequest(
-        customHeaders: [
-            [ name: "Authorization", value: "Bearer " + env.BEARER_TOKEN ],
-            [ name: "Content-Type", value: "application/vnd.api+json" ]
-        ],
-        httpMode: 'POST',
-        requestBody: "${Payload}",
-        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/s3-webapp/aws/versions"
-    )
-    def data = new JsonSlurper().parseText(response.content)
-    println ("link: " + data.data.links.upload)
-    return data.data.links.upload
-}
-
 def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl --upload-file ${filename}.tar.gz  \"${data.data.links.upload}\"
+            curl --upload-file ${filename}.tar.gz  https://archivist.terraform.io/v1/object/dmF1bHQ6djI6eUtDbElvbnQ4cjlRalpYSTkyY3dYYTBxZnhoK0w4V1ljV2I5bWJYb2p2QUFjMVAwT2F1WUxHZTZEOEQ2TkRwc1BmZnMxb0dQMmhMODRlTld3bjYyTTdHR0F0REpINW45KzdNZkMxc0JYTjdYRlBTMmdVN0prVEVYOXo5YWV5enhuTUhvRHE1d2J4eUFMeE9hVzhMbkRqcEdwQWwzQ05WOTNCalpDa2pJaTloNGUvbjFwdDVsVjkwYjZzQ3M5WmdrZjBja1lmcVVnc1Q0QnZuNUZKR3JENzdxWWs4ZkJELzQ2NWluckhENDhxNStHd3pKenFhM2MrM3ZSaktDWmVkYWl3UlJDOGFDT1lCYVZRdU1pd0kvdUFvZnJOVmZkNUJFTnc0QVpSVlEwQlpybVRIVm9HZjYrcERDMVB2N29pY1JtV2dQL2RoMDd1YXFZSk0yc0JJK1RZYytMeUE9"
          '''
     }
 }
