@@ -91,7 +91,7 @@ def publishVersion() {
 
 def postModule() {
     stage('Posting') {
-        sh 'curl -X POST -d /var/lib/jenkins/workspace/publish-module/webapp.tar.gz  ${data.data.links.upload}/upload'
+        sh 'curl -X POST -d ./publish-module/webapp.tar.gz  ${data.data.links.upload}'
     }
 }
 
