@@ -91,7 +91,7 @@ def publishVersion() {
 
 def postModule() {
     stage('Posting') {
-        sh "curl -X POST -d @./publish-module/webapp.tar.gz  ${data.data.links.upload}"
+        sh "curl -X PUT -d @./publish-module/webapp.tar.gz  ${data.data.links.upload}"
     }
 }
 
