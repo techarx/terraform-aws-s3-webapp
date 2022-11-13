@@ -10,7 +10,10 @@ node {
     
 }
 
-def file = "$workspace/webapp.tar.gz"
+def filePath = '/var/lib/jenkins/workspace/publish-module/'
+def fileExt = '.tar.gz'
+def filename = 'webapp'
+def file = filePath + filename + fileExt
 
 def checkout() {
     stage('Clone') {
@@ -84,12 +87,10 @@ def publishVersion() {
     return data.data.links.upload
 }
 
-def cmd = "curl --upload-file @{file} ${data.data.links.upload}"
-  try {
-
-  steps.sh cmd
-   } catch (Exception e) {
-  }
+def postModule() {
+    stage('Posting') {
+        sh 'curl --upload-file ${file} ${data.data.links.upload}'
+}
 
 
 
