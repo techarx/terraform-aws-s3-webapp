@@ -90,6 +90,7 @@ def publishVersion() {
 def postModule() {
     stage('Posting') {
         sh 'curl --upload-file ${file} ${data.data.links.upload}'
+    }
 }
 
 
