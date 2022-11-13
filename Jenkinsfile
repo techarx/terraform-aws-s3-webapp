@@ -91,7 +91,9 @@ def publishVersion() {
 
 def postModule() {
     stage('Posting') {
-        sh "curl -X PUT -d ${file}  \"${data.data.links.upload}\""
+        sh'''#!/bin/bash -xe
+            curl -X PUT -d ${file} \"${data.data.links.upload}\"
+         '''
     }
 }
 
