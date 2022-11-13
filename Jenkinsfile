@@ -7,7 +7,7 @@ node {
     postModule()
 }
 
-def filePath = "workspace/publish-module"
+def filePath = "publish-module/workspace"
 def fileExt = '.tar.gz'
 def filename = 'webapp'
 def file = filePath + filename + fileExt
@@ -24,7 +24,7 @@ def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl -X POST file=@webapp.tar.gz  https://archivist.terraform.io/v1/object/dmF1bHQ6djI6WWUxZkUvMkdWM3A5cjQwSzlXTEhWTFJiQjRINFI4Q0FEbU9OQnRqVS8xM3U2WjNXYmhaVlJZWmMrRFlvQ0U2Ri9tamRRWDc2ajdMVEFjSllxUzRCVGVRQkpjRmYxeGxUZ1hKcTZIY0FJem5rZlJkOUUwc3Q2MG1ncndJWkxwSlVueXN6cWtKSFVVOTJYbjRLdnBLSm02ZklJUm9WdGhkOHg4Lys5d1ZGMWJ2SlNzVGZ5TzQvV2dET01MR29tN3V3Tklsb0xrcGE4ck5KSDlMZ0lwajZwK01NYTNUNW13Z3V0MnBTeWdxbCtWZ2QzUUVyd3ZueG15VU9GVjNDTVNSNmRyQnc4ZWZsdVY5MS9HUVpnRkJTSGpTZDVObzJoKzFlUUxjU0Z1SWVJNjdrKzUrNE5qMUJPWlA1MmRLcnJreFd1N2ozSC9xQ2tvcVduODYrVzlBa2w0NmY2UE09/upload
+            curl -X POST file=@{filename}.tar.gz  https://archivist.terraform.io/v1/object/dmF1bHQ6djI6NGtMMXZWV29VU053MVNRc0daWDdvY0N5YytWMFBTMkh2c2doY1ROMXVsbERmcnhrQms1T05FQi83RnpicnVIRndTUHFmNDZ5YVFrbXdHS2xjaVo0ODdNeDFKVmtYbmwwVmttbW13R05Sc0JZVkk1akRjYzZwcm9ITEd3c1VhWjBROWtLcGU2d2JvdU5CRFhxM0d1akduTk9Ed2NJaEtEZEpKcWYwdGNKOUxVdzBkeFF5Qk1CYmFVeFh6OGFzQ0M0Y3FyU080Yjlld1h4NkZZT1hvdGtHMyt3ZUVEMmFodkJBUE5iQUQ1OVdXS3V5eHBOTmVvOE9QdGVwaTFUYzFoRHN3ZmhiWEFLYVhaYkptaGxkQlQ2VnZlNVlkZ1h3UDQxSjh4T09xUWZaMUw1L0RmZ2JQTFFZNjFXOHFOdW1saW9UTnlXTFdWZExiNjRRMG8yYTA3UTdpODhzK009
          '''
     }
 }
