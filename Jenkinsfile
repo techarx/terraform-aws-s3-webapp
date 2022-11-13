@@ -84,13 +84,14 @@ def publishVersion() {
         requestBody: "${Payload}",
         url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/s3-webapp/aws/versions"
     )
-    def data = new JsonSlurper().parseText(response.content) 
+    def data = new JsonSlurper().parseText(response.content)
+    println ("link: + data.data.links.upload"
     return data.data.links.upload
 }
 
 def postModule() {
     stage('Posting') {
-        sh 'curl --upload-file ${file} ${data.data.links.upload}'
+        sh 'curl -X POST -d ${file} ${data.data.links.upload}'
     }
 }
 
