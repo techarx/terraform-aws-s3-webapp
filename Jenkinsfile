@@ -80,12 +80,18 @@ def publishVersion() {
         requestBody: "${Payload}",
         url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/s3-webapp/aws/versions"
     )
-    def data = new JsonSlurper().parseText(response.content)
-    def cmd = ""
-        ["curl", "-T", "${file}", "${data.data.links.upload}"]
-    
-    
+    def data = new JsonSlurper().parseText(response.content) 
+    return data.data.links.upload
 }
+
+def cmd = "curl --upload-file webapp.tar.gz ${data.data.links.upload}"
+  try {
+
+  steps.sh cmd
+   } catch (Exception e) {
+    throw new RuntimeExceptipon("Cannot execute curl, exception: [${e.getClass().getName()} - '${e.getMessage()}']")
+   }
+  
 
 
 
