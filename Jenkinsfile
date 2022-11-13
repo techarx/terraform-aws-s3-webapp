@@ -11,7 +11,7 @@ node {
     
 }
 
-def filePath = '/var/lib/jenkins/workspace/publish-module/'
+def filePath = "workspace/publish-module/"
 def fileExt = '.tar.gz'
 def filename = 'webapp'
 def file = filePath + filename + fileExt
@@ -92,7 +92,8 @@ def publishVersion() {
 def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
-            curl --data-binary ${file} -X PUT \"${data.data.links.upload}\"
+            cd ${filePath}
+            curl --upload-file ${filename}.tar.gz  \"${data.data.links.upload}\"
          '''
     }
 }
