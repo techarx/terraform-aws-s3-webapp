@@ -6,6 +6,7 @@ node {
     checkout()
     publishModule()
     publishVersion()
+    postModule()
     
     
 }
