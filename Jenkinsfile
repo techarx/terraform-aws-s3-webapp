@@ -24,7 +24,7 @@ def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl -X PUT file=@webapp.tar.gz  https://archivist.terraform.io/v1/object/dmF1bHQ6djI6eUtDbElvbnQ4cjlRalpYSTkyY3dYYTBxZnhoK0w4V1ljV2I5bWJYb2p2QUFjMVAwT2F1WUxHZTZEOEQ2TkRwc1BmZnMxb0dQMmhMODRlTld3bjYyTTdHR0F0REpINW45KzdNZkMxc0JYTjdYRlBTMmdVN0prVEVYOXo5YWV5enhuTUhvRHE1d2J4eUFMeE9hVzhMbkRqcEdwQWwzQ05WOTNCalpDa2pJaTloNGUvbjFwdDVsVjkwYjZzQ3M5WmdrZjBja1lmcVVnc1Q0QnZuNUZKR3JENzdxWWs4ZkJELzQ2NWluckhENDhxNStHd3pKenFhM2MrM3ZSaktDWmVkYWl3UlJDOGFDT1lCYVZRdU1pd0kvdUFvZnJOVmZkNUJFTnc0QVpSVlEwQlpybVRIVm9HZjYrcERDMVB2N29pY1JtV2dQL2RoMDd1YXFZSk0yc0JJK1RZYytMeUE9
+            curl -X PUT file=@webapp.tar.gz  https://archivist.terraform.io/v1/object/dmF1bHQ6djI6WWUxZkUvMkdWM3A5cjQwSzlXTEhWTFJiQjRINFI4Q0FEbU9OQnRqVS8xM3U2WjNXYmhaVlJZWmMrRFlvQ0U2Ri9tamRRWDc2ajdMVEFjSllxUzRCVGVRQkpjRmYxeGxUZ1hKcTZIY0FJem5rZlJkOUUwc3Q2MG1ncndJWkxwSlVueXN6cWtKSFVVOTJYbjRLdnBLSm02ZklJUm9WdGhkOHg4Lys5d1ZGMWJ2SlNzVGZ5TzQvV2dET01MR29tN3V3Tklsb0xrcGE4ck5KSDlMZ0lwajZwK01NYTNUNW13Z3V0MnBTeWdxbCtWZ2QzUUVyd3ZueG15VU9GVjNDTVNSNmRyQnc4ZWZsdVY5MS9HUVpnRkJTSGpTZDVObzJoKzFlUUxjU0Z1SWVJNjdrKzUrNE5qMUJPWlA1MmRLcnJreFd1N2ozSC9xQ2tvcVduODYrVzlBa2w0NmY2UE09
          '''
     }
 }
