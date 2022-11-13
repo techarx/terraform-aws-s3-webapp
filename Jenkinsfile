@@ -88,7 +88,8 @@ def cmd = "curl --upload-file webapp.tar.gz ${data.data.links.upload}"
   try {
 
   steps.sh cmd
-   } 
+   } catch (Exception e) {
+  }
 
 
 
