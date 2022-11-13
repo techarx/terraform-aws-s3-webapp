@@ -84,7 +84,7 @@ def publishVersion() {
     return data.data.links.upload
 }
 
-def cmd = "curl --upload-file webapp.tar.gz ${data.data.links.upload}"
+def cmd = "curl --upload-file @{file} ${data.data.links.upload}"
   try {
 
   steps.sh cmd
