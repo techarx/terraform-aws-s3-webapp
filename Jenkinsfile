@@ -4,6 +4,7 @@ import groovy.json.JsonSlurper
 
 node {
     checkout()
+    publishModule()
     postModule()
 }
 
@@ -20,11 +21,77 @@ def checkout() {
     }
 }
 
+def modulePayload() {
+    def payload = """
+{
+  "data": {
+    "type": "registry-modules",
+    "attributes": {
+      "name": "vnet-module",
+      "provider": "aws",
+      "registry-name": "private"
+    }
+  }
+}
+
+    """
+    return payload
+}
+
+def publishModule() {
+    def payload = modulePayload()
+    def response = httpRequest(
+        customHeaders: [
+            [ name: "Authorization", value: "Bearer " + env.BEARER_TOKEN ],
+            [ name: "Content-Type", value: "application/vnd.api+json" ]
+        ],
+        httpMode: 'POST',
+        requestBody: "${payload}",
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules"
+    )
+}
+
+def versionPayload() {
+    def Payload = """
+{
+  "data": {
+    "type": "registry-module-versions",
+    "attributes": {
+      "version": "1.2.3"
+    }
+  }
+}
+
+
+    """
+    return Payload
+
+}
+
+def publishVersion() {
+    def Payload = versionPayload()
+    def response = httpRequest(
+        customHeaders: [
+            [ name: "Authorization", value: "Bearer " + env.BEARER_TOKEN ],
+            [ name: "Content-Type", value: "application/vnd.api+json" ]
+        ],
+        httpMode: 'POST',
+        requestBody: "${Payload}",
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/vnet-module/aws/versions"
+    )
+    def data = new JsonSlurper().parseText(response.content)
+    println ("link: " + data.data.links.upload)
+    
+
+}
+return data.data.id
+
+
 def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl -X POST file=@{filename}.tar.gz  https://archivist.terraform.io/v1/object/dmF1bHQ6djI6NGtMMXZWV29VU053MVNRc0daWDdvY0N5YytWMFBTMkh2c2doY1ROMXVsbERmcnhrQms1T05FQi83RnpicnVIRndTUHFmNDZ5YVFrbXdHS2xjaVo0ODdNeDFKVmtYbmwwVmttbW13R05Sc0JZVkk1akRjYzZwcm9ITEd3c1VhWjBROWtLcGU2d2JvdU5CRFhxM0d1akduTk9Ed2NJaEtEZEpKcWYwdGNKOUxVdzBkeFF5Qk1CYmFVeFh6OGFzQ0M0Y3FyU080Yjlld1h4NkZZT1hvdGtHMyt3ZUVEMmFodkJBUE5iQUQ1OVdXS3V5eHBOTmVvOE9QdGVwaTFUYzFoRHN3ZmhiWEFLYVhaYkptaGxkQlQ2VnZlNVlkZ1h3UDQxSjh4T09xUWZaMUw1L0RmZ2JQTFFZNjFXOHFOdW1saW9UTnlXTFdWZExiNjRRMG8yYTA3UTdpODhzK009
+            curl -v -X  POST file=@{filename}.tar.gz ${data.data.links.upload}
          '''
     }
 }
