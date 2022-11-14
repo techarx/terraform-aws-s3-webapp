@@ -87,14 +87,14 @@ def publishVersion() {
 
 }
 
-def my_link = publishVersion()
+
 
 
 def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl -v -F webapp.tar.gz my_link
+            curl -v -F webapp.tar.gz publishVersion()
          '''
     }
 }
