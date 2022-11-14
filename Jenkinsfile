@@ -94,7 +94,7 @@ def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl -v -F file=@{filename}.tar.gz ${archive}
+            curl -v -F file=@{filename}.tar.gz "${archive}"
          '''
     }
 }
