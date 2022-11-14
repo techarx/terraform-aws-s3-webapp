@@ -84,7 +84,7 @@ def publishVersion() {
     
 
 }
-return data.data.id
+return data.data.links.upload
 
 
 def postModule() {
