@@ -3,13 +3,16 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 node {
-   directory_path()
+   checkout()
+   publishModule()
+   publishVersion()
+   my_link()
 }
 
-def filePath = "./publish-module/workspace"
+def filePath = "/var/lib/jenkins/workspace/publish-module"
 def fileExt = '.tar.gz'
 def filename = 'webapp'
-def file = filePath + filename + fileExt
+def file = filename + fileExt
 
 def checkout() {
     stage('Clone') {
@@ -84,14 +87,14 @@ def publishVersion() {
 
 }
 
-def directory_path = pwd()
+def my_link = publishVersion()
 
 
 def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl -v -F file=@{filename}.tar.gz "${archive}"
+            curl -v -F webapp.tar.gz "${my_link}"
          '''
     }
 }
