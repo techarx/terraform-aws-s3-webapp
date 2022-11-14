@@ -82,17 +82,19 @@ def publishVersion() {
     )
     def data = new JsonSlurper().parseText(response.content)
     println ("link: " + data.data.links.upload)
+    return data.data.links.upload
     
 
 }
-return data.data.links.upload
+
+def archive = publishVersion()
 
 
 def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl -v -X  POST file=@{filename}.tar.gz ${data.data.links.upload}
+            curl -v -X  POST file=@{filename}.tar.gz ${archive}
          '''
     }
 }
