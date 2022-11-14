@@ -6,7 +6,7 @@ node {
    checkout()
    publishModule()
    publishVersion()
-   my_link()
+   postModule()
 }
 
 def filePath = "/var/lib/jenkins/workspace/publish-module"
