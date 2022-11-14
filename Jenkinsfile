@@ -3,13 +3,10 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 node {
-    checkout()
-    publishModule()
-    publishVersion()
-    postModule()
+   archive()
 }
 
-def filePath = "publish-module/workspace"
+def filePath = "./publish-module/workspace"
 def fileExt = '.tar.gz'
 def filename = 'webapp'
 def file = filePath + filename + fileExt
@@ -87,7 +84,7 @@ def publishVersion() {
 
 }
 
-def archive = publishVersion()
+def archive = pwd()
 
 
 def postModule() {
