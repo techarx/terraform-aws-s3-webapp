@@ -3,7 +3,7 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 node {
-   archive()
+   directory_path()
 }
 
 def filePath = "./publish-module/workspace"
@@ -84,7 +84,7 @@ def publishVersion() {
 
 }
 
-def archive = pwd()
+def directory_path = pwd()
 
 
 def postModule() {
