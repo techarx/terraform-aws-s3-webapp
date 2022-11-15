@@ -6,7 +6,7 @@ node {
    checkout()
    publishModule()
    def urllink = publishVersion()
-   postModule()
+   
 }
 
 def filePath = "/var/lib/jenkins/workspace/publish-module"
@@ -89,12 +89,6 @@ def publishVersion() {
 
 
 
-
-def postModule() {    
-        sh'''#!/bin/bash -xe
-            curl -F filename=webapp.tar.gz -F upload=webapp.tar.gz "${urllink}"
-         '''
-}
 
 
 
