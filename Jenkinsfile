@@ -94,7 +94,7 @@ def postModule() {
     stage('Posting') {
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl -v -F webapp.tar.gz publishVersion
+            curl -v -F webapp.tar.gz ${publishVersion()}
          '''
     }
 }
