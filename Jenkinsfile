@@ -93,7 +93,7 @@ def publishVersion() {
 def postModule() {    
         sh'''#!/bin/bash -xe
             cd ${filePath}
-            curl -v -F webapp.tar.gz ${urllink}
+            curl --upload-file webapp.tar.gz ${urllink}
          '''
 }
 
