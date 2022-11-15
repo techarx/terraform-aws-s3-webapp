@@ -92,7 +92,6 @@ def publishVersion() {
 
 def postModule() {    
         sh'''#!/bin/bash -xe
-            cd ${filePath}
             curl -F file=@/var/lib/jenkins/workspace/publish-module/module.tar.gz "${urllink}"
          '''
 }
