@@ -5,7 +5,7 @@ import groovy.json.JsonSlurper
 node {
    checkout()
    publishModule()
-   publishVersion()
+   def urllink = publishVersion()
    postModule()
 }
 
@@ -90,8 +90,7 @@ def publishVersion() {
 
 
 
-def postModule() {
-    def urllink = publishVersion()
+def postModule() {    
         sh'''#!/bin/bash -xe
             cd ${filePath}
             curl -v -F webapp.tar.gz ${urllink}
