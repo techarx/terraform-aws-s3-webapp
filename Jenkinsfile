@@ -3,9 +3,7 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 node {
-   checkout()
-   publishModule()
-   def urllink = publishVersion()
+   postModule()
    
 }
 
