@@ -18,6 +18,7 @@ node {
 def checkout() {
     stage('Clone') {
         git branch: 'master', url: 'https://github.com/techarx/terraform-aws-s3-webapp.git'
+        tar file: 'webapps.tar.gz', compress: true, dir:'./vnet'
         
         
     }
@@ -31,7 +32,7 @@ def modulePayload() {
   "data": {
     "type": "registry-modules",
     "attributes": {
-      "name": "My-app",
+      "name": "webapps",
       "provider": "aws",
       "registry-name": "private"
     }
@@ -83,7 +84,7 @@ def publishVersion() {
         ],
         httpMode: 'POST',
         requestBody: "${Payload}",
-        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/My-app/aws/versions"
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/webapps/aws/versions"
     )
     def data = new JsonSlurper().parseText(response.content)
     println ("link: " + data.data.links.upload)
@@ -93,7 +94,7 @@ def publishVersion() {
 
 def postModule() {
     def URL = publishVersion()
-    def carry = readFile "${env.WORKSPACE}/webapp.tar.gz"
+    def carry = readFile "${env.WORKSPACE}/webapps.tar.gz"
     def response = httpRequest(
         customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
         httpMode: 'PUT',
