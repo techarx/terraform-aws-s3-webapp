@@ -9,10 +9,11 @@ node {
    
 }
 
-def filePath = "/var/lib/jenkins/workspace/publish-module"
-def fileExt = '.tar.gz'
-def filename = 'webapp'
-def carry = filePath + filename + fileExt
+env.WORKSPACE = pwd()
+//def filePath = "/var/lib/jenkins/workspace/publish-module"
+//def fileExt = '.tar.gz'
+//def filename = 'webapp'
+def carry = readFile "${env.WORKSPACE}/webapp.tar.gz"
 
 def checkout() {
     stage('Clone') {
@@ -95,7 +96,7 @@ def postModule() {
     def response = httpRequest(
         customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
         httpMode: 'PUT',
-        requestBody: "${webapp.tar.gz}",
+        requestBody: "${carry}",
         url: "${URL}"
     )
 }
