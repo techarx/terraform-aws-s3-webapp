@@ -3,6 +3,7 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 node {
+   pwd()
    checkout()
    publishModule()
    postModule()
@@ -93,7 +94,7 @@ def publishVersion() {
 
 def postModule() {
     def URL = publishVersion()
-    def carry = load "${env.WORKSPACE}/webapp.tar.gz"
+    def carry = readFile "${env.WORKSPACE}/webapp.tar.gz"
     def response = httpRequest(
         customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
         httpMode: 'PUT',
