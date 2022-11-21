@@ -99,6 +99,7 @@ def postModule() {
         customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
         httpMode: 'PUT',
         uploadFile: "webappss.tar.gz",
+        wrapAsMultipart: false ,
         url: "${URL}"
     )
 }
