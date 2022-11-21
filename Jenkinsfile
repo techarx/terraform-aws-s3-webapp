@@ -3,6 +3,8 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 node {
+   checkout()
+   publishModule()
    postModule()
    
 }
@@ -20,12 +22,84 @@ def checkout() {
     }
 }
 
+
+
+def modulePayload() {
+    def payload = """
+{
+  "data": {
+    "type": "registry-modules",
+    "attributes": {
+      "name": "s3-webapp",
+      "provider": "aws",
+      "registry-name": "private"
+    }
+  }
+}
+
+    """
+    return payload
+}
+
+def publishModule() {
+    def payload = modulePayload()
+    def response = httpRequest(
+        customHeaders: [
+            [ name: "Authorization", value: "Bearer " + env.BEARER_TOKEN ],
+            [ name: "Content-Type", value: "application/vnd.api+json" ]
+        ],
+        httpMode: 'POST',
+        requestBody: "${payload}",
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules"
+    )
+}
+
+def versionPayload() {
+    def Payload = """
+{
+  "data": {
+    "type": "registry-module-versions",
+    "attributes": {
+      "version": "1.2.3"
+    }
+  }
+}
+
+
+    """
+    return Payload
+
+}
+
+
+
+def publishVersion() {
+    def Payload = versionPayload()
+    def response = httpRequest(
+        customHeaders: [
+            [ name: "Authorization", value: "Bearer " + env.BEARER_TOKEN ],
+            [ name: "Content-Type", value: "application/vnd.api+json" ]
+        ],
+        httpMode: 'POST',
+        requestBody: "${Payload}",
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/s3-webapp/aws/versions"
+    )
+    def data = new JsonSlurper().parseText(response.content)
+    println ("link: " + data.data.links.upload)
+    return data.data.links.upload
+}
+
+
 def postModule() {
+    def URL = publishVersion()
     stage('Posting') {
          sh'''#!/bin/bash -xe
-         curl -v -T file=@"//var//lib//jenkins//workspace//publish-module//webapp.tar.gz" https://archivist.terraform.io/v1/object/dmF1bHQ6djI6R3NHNk1iTWRTd1JraTVFMnJoVzNDVXkxcmJKdjBUcjR2SDk2N01zbUQ1SWpNRWMrMG85bTgyU1J3enF6bTN4UUtzcVY4UjA0VWpMbVZzakZTZzlva2RqZnRtZHFnSGVtTENpWFVMLzFaZ1VsYlpIVWREZHFqUWcyRTM0Z090OE1BdDNKSUNXcEl2d3AwMUowRDI4N3gxUFQwMlRad05WZURsUjBOMGh6b2ZjMXJISnZQRDRRMVBMdWRnSDJYSFNNSmhGN1dwRG1FcDRnckZuNGplbHZ6Umx2amZMV05QOEpaMnJjdlpScGdPMmJzL3F6aHF2YTVyZFlqVzRUVDBobU9TMTFmdS9qSE5kT1BNOWRTUmV1bTllQXVMbEU2SWk2TVRna0pjaHNsdkxHd1k5a0pYcnFkYkd4NmZZRWQvR3VRdUhWNEdhRGk4akk0YmVSNC8zVGVUVVRBQkU9
-            
-           '''
+            curl \
+              --header "Content-Type: application/octet-stream" \
+              --request PUT \
+              --data-binary @webapp.tar.gz \
+              ${URL}
+            '''
     } 
 }
 
