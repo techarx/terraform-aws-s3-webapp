@@ -94,7 +94,7 @@ def publishVersion() {
 
 def postModule() {
     def URL = publishVersion()
-    def carry = readFile "${env.WORKSPACE}/webapps.tar.gz"
+    def carry = load "${env.WORKSPACE}/webapps.tar.gz"
     def response = httpRequest(
         customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
         httpMode: 'PUT',
