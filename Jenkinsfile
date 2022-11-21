@@ -12,7 +12,7 @@ node {
 def filePath = "/var/lib/jenkins/workspace/publish-module"
 def fileExt = '.tar.gz'
 def filename = 'webapp'
-def file = filename + fileExt
+def file = filePath + filename + fileExt
 
 def checkout() {
     stage('Clone') {
@@ -92,17 +92,13 @@ def publishVersion() {
 
 def postModule() {
     def URL = publishVersion()
-    stage('Posting') {
-         sh'''#!/bin/bash -xe
-            curl \
-              --header "Content-Type: application/octet-stream" \
-              --request PUT \
-              --data-binary @webapp.tar.gz \
-              $URL
-            '''
-    } 
+    def response = httpRequest(
+        customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
+        httpMode: 'PUT',
+        requestBody: "${file}",
+        url: "${URL}"
+    )
 }
-
 
 
 
