@@ -32,7 +32,7 @@ def modulePayload() {
   "data": {
     "type": "registry-modules",
     "attributes": {
-      "name": "s3-module",
+      "name": "s3-modules",
       "provider": "aws",
       "registry-name": "private"
     }
@@ -62,7 +62,7 @@ def versionPayload() {
   "data": {
     "type": "registry-module-versions",
     "attributes": {
-      "version": "1.2.3"
+      "version": "1.0.0"
     }
   }
 }
@@ -84,7 +84,7 @@ def publishVersion() {
         ],
         httpMode: 'POST',
         requestBody: "${Payload}",
-        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/s3-module/aws/versions"
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/s3-modules/aws/versions"
     )
     def data = new JsonSlurper().parseText(response.content)
     println ("link: " + data.data.links.upload)
@@ -94,7 +94,7 @@ def publishVersion() {
 
 def postModule() {
     def URL = publishVersion()
-    def carry = "${env.WORKSPACE}/webappss.tar.gz"
+    def carry = readFile "${env.WORKSPACE}/webappss.tar.gz"
     def response = httpRequest(
         customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
         httpMode: 'PUT',
