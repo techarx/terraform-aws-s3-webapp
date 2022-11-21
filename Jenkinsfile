@@ -95,7 +95,7 @@ def postModule() {
     def response = httpRequest(
         customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
         httpMode: 'PUT',
-        requestBody: "${carry}",
+        requestBody: "${webapp.tar.gz}",
         url: "${URL}"
     )
 }
