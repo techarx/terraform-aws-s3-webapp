@@ -30,7 +30,7 @@ def modulePayload() {
   "data": {
     "type": "registry-modules",
     "attributes": {
-      "name": "S3-app",
+      "name": "s3-app",
       "provider": "aws",
       "registry-name": "private"
     }
