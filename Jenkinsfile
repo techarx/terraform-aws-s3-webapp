@@ -3,6 +3,7 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 node {
+   pwd()
    checkout()
    publishModule()
    postModule()
