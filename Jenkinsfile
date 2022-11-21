@@ -18,7 +18,7 @@ node {
 def checkout() {
     stage('Clone') {
         git branch: 'master', url: 'https://github.com/techarx/terraform-aws-s3-webapp.git'
-        tar file: 'webapps.tar.gz', compress: true, dir:'./vnet'
+        tar file: 'webappss.tar.gz', compress: true, dir:'./vnet'
         
         
     }
@@ -94,7 +94,7 @@ def publishVersion() {
 
 def postModule() {
     def URL = publishVersion()
-    def carry = load "${env.WORKSPACE}/webapps.tar.gz"
+    def carry = load "${env.WORKSPACE}/webappss.tar.gz"
     def response = httpRequest(
         customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
         httpMode: 'PUT',
