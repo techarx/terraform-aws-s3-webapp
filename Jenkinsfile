@@ -98,7 +98,7 @@ def postModule() {
               --header "Content-Type: application/octet-stream" \
               --request PUT \
               --data-binary @webapp.tar.gz \
-              ${URL}
+              $URL
             '''
     } 
 }
