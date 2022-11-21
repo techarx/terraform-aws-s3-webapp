@@ -3,14 +3,13 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 node {
-   pwd()
    checkout()
    publishModule()
    postModule()
    
 }
 
-env.WORKSPACE = pwd()
+
 //def filePath = "/var/lib/jenkins/workspace/publish-module"
 //def fileExt = '.tar.gz'
 //def filename = 'webapp'
