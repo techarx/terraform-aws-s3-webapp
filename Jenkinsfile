@@ -31,7 +31,7 @@ def modulePayload() {
   "data": {
     "type": "registry-modules",
     "attributes": {
-      "name": "rds-app",
+      "name": "EC2-app",
       "provider": "aws",
       "registry-name": "private"
     }
@@ -83,7 +83,7 @@ def publishVersion() {
         ],
         httpMode: 'POST',
         requestBody: "${Payload}",
-        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/rds-app/aws/versions"
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/EC2-app/aws/versions"
     )
     def data = new JsonSlurper().parseText(response.content)
     println ("link: " + data.data.links.upload)
