@@ -12,7 +12,7 @@ node {
 def filePath = "/var/lib/jenkins/workspace/publish-module"
 def fileExt = '.tar.gz'
 def filename = 'webapp'
-def file = filePath + filename + fileExt
+def carry = filePath + filename + fileExt
 
 def checkout() {
     stage('Clone') {
@@ -95,7 +95,7 @@ def postModule() {
     def response = httpRequest(
         customHeaders: [[ name: "Content-Type: application/octet-stream" ]],
         httpMode: 'PUT',
-        requestBody: "${file}",
+        requestBody: "${carry}",
         url: "${URL}"
     )
 }
