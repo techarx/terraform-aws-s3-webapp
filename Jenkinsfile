@@ -13,7 +13,7 @@ node {
 //def filePath = "/var/lib/jenkins/workspace/publish-module"
 //def fileExt = '.tar.gz'
 //def filename = 'webapp'
-def carry = readFile "${env.WORKSPACE}/webapp.tar.gz"
+//def carry = readFile "${env.WORKSPACE}/webapp.tar.gz"
 
 def checkout() {
     stage('Clone') {
@@ -31,7 +31,7 @@ def modulePayload() {
   "data": {
     "type": "registry-modules",
     "attributes": {
-      "name": "EC2-app",
+      "name": "My-app",
       "provider": "aws",
       "registry-name": "private"
     }
@@ -83,7 +83,7 @@ def publishVersion() {
         ],
         httpMode: 'POST',
         requestBody: "${Payload}",
-        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/EC2-app/aws/versions"
+        url: "https://app.terraform.io/api/v2/organizations/TFEPOC/registry-modules/private/TFEPOC/My-app/aws/versions"
     )
     def data = new JsonSlurper().parseText(response.content)
     println ("link: " + data.data.links.upload)
